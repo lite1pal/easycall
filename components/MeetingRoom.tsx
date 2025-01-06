@@ -81,7 +81,7 @@ function MeetingRoom() {
           <Users size={20} />
         </button>
 
-        {!isPersonalRooom && <EndCallButton />}
+        {/* {!isPersonalRooom && <EndCallButton />} */}
       </div>
     </section>
   );
