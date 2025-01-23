@@ -17,7 +17,12 @@ import { LayoutList, Users } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
 
-type CallLayoutType = "grid" | "speaker-right" | "speaker-left";
+type CallLayoutType =
+  | "grid"
+  | "speaker-right"
+  | "speaker-left"
+  | "speaker-bottom"
+  | "speaker-top";
 
 function MeetingRoom() {
   const searchParams = useSearchParams();
@@ -32,6 +37,12 @@ function MeetingRoom() {
         return <PaginatedGridLayout />;
       case "speaker-right":
         return <SpeakerLayout participantsBarPosition={"left"} />;
+
+      case "speaker-bottom":
+        return <SpeakerLayout participantsBarPosition={"top"} />;
+
+      case "speaker-top":
+        return <SpeakerLayout participantsBarPosition={"bottom"} />;
       default:
         return <SpeakerLayout participantsBarPosition={"right"} />;
     }
@@ -51,7 +62,7 @@ function MeetingRoom() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
+      <div className="fixed bottom-0 flex w-full flex-wrap items-center justify-center gap-5">
         <CallControls onLeave={() => router.replace("/")} />
 
         <DropdownMenu>
@@ -59,7 +70,13 @@ function MeetingRoom() {
             <LayoutList size={20} className="text-white" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="border-none bg-dark-1 text-white">
-            {["Grid", "Speaker-Left", "Speaker-Right"].map((item, i) => {
+            {[
+              "Grid",
+              "Speaker-Left",
+              "Speaker-Right",
+              "Speaker-Bottom",
+              "Speaker-Top",
+            ].map((item, i) => {
               return (
                 <DropdownMenuItem
                   key={i}
