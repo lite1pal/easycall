@@ -10,13 +10,13 @@ function Sidebar() {
   const pathName = usePathname();
 
   return (
-    <section className="bg-dark-1 sticky left-0 top-0 flex h-screen flex-col justify-between p-6 pt-28 text-white max-sm:hidden lg:w-[264px]">
+    <section className="sticky left-0 top-0 flex h-screen flex-col justify-between bg-dark-1 p-6 pt-28 text-white max-sm:hidden lg:w-[264px]">
       <div className="flex flex-1 flex-col gap-6">
         {sidebarLinks.map((link) => {
-          let activeClassName = "";
-          if (link.route === pathName) {
-            activeClassName = "text-indigo-600";
-          }
+          // let activeClassName = "";
+          // if (link.route === pathName) {
+          //   activeClassName = "text-indigo-600";
+          // }
           const isActive = pathName === link.route;
 
           return (

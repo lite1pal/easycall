@@ -1,6 +1,8 @@
 "use client";
 
 import MeetingModal from "@/components/MeetingModal";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
@@ -65,6 +67,8 @@ function Home() {
     }
   };
 
+  const meetingLink = `${process.env.NEXT_PUBLIC_URL}/meeting/${callDetails?.id}`;
+
   return (
     <section className="flex size-full flex-col gap-5 text-white lg:gap-10">
       <HeroBanner />
@@ -83,6 +87,7 @@ function Home() {
           className="bg-[#0E78F9]"
           iconSrc="/icons/join-meeting.svg"
           iconAlt="Join meeting"
+          handleClick={() => setMeetingState("isScheduleMeeting")}
         >
           <div className="text-[24px] font-[700]">Join</div>
           <div>via invitation link</div>
@@ -103,6 +108,62 @@ function Home() {
           <div className="text-[24px] font-[700]">View</div>
           <div>Meeting recordings</div>
         </MeetingActionCard>
+
+        {!callDetails ? (
+          <MeetingModal
+            isOpen={meetingState === "isScheduleMeeting"}
+            onClose={() => setMeetingState(undefined)}
+            title="Create meeting"
+            className="text-center"
+            buttonText="Schedule Meeting"
+            handleClick={createMeeting}
+          >
+            <div className="grid gap-5">
+              <div className="grid gap-3">
+                <Label className="text-slate-300" htmlFor="description">
+                  Add a description
+                </Label>
+                <Input
+                  required
+                  onChange={(e) => {
+                    setValues({ ...values, description: e.target.value });
+                  }}
+                  id="description"
+                  className="border-none bg-dark-2"
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label className="text-slate-300" htmlFor="date-time">
+                  Select Date & Time
+                </Label>
+                <Input
+                  required
+                  type="datetime-local"
+                  id="date-time"
+                  onChange={(e) => {
+                    setValues({
+                      ...values,
+                      dateTime: new Date(e.target.value),
+                    });
+                  }}
+                  className="border-none bg-dark-2"
+                />
+              </div>
+            </div>
+          </MeetingModal>
+        ) : (
+          <MeetingModal
+            isOpen={meetingState === "isScheduleMeeting"}
+            onClose={() => setMeetingState(undefined)}
+            title="Meeting created"
+            className="text-center"
+            buttonText="Copy meeting link"
+            handleClick={() => {
+              navigator.clipboard.writeText(meetingLink);
+              toast({ title: "Link copied" });
+            }}
+          />
+        )}
 
         <MeetingModal
           isOpen={meetingState === "isNewMeeting"}
@@ -143,7 +204,7 @@ function HeroBanner() {
     year: "numeric",
   });
   return (
-    <div className="bg-hero flex h-[300px] w-full flex-col justify-between rounded-[20px] bg-cover p-10">
+    <div className="flex h-[300px] w-full flex-col justify-between rounded-[20px] bg-hero bg-cover p-10">
       <div className="w-fit bg-white/5 px-3 py-2">
         Upcoming Meeting at: 12:30 PM
       </div>
@@ -153,7 +214,7 @@ function HeroBanner() {
           <h1 className="text-[72px] font-[800]">{time.split(" ")[0]}</h1>
           <div className="mb-[22px] text-[24px]">{time.split(" ")[1]}</div>
         </div>
-        <p className="text-gray-1 text-[24px]">{date}</p>
+        <p className="text-[24px] text-gray-1">{date}</p>
       </div>
     </div>
   );

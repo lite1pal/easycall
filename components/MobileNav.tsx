@@ -37,10 +37,10 @@ function MobileNav() {
 
           <div className="flex flex-1 flex-col gap-6 pt-16">
             {sidebarLinks.map((link) => {
-              let activeClassName = "";
-              if (link.route === pathName) {
-                activeClassName = "text-indigo-600";
-              }
+              // let activeClassName = "";
+              // if (link.route === pathName) {
+              //   activeClassName = "text-indigo-600";
+              // }
               const isActive = pathName === link.route;
 
               return (

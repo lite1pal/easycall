@@ -5,11 +5,7 @@ import MeetingRoom from "@/components/MeetingRoom";
 import MeetingSetup from "@/components/MeetingSetup";
 import { useGetCallById } from "@/hooks/useGetCallById";
 import { useUser } from "@clerk/nextjs";
-import {
-  StreamCall,
-  StreamTheme,
-  useStreamVideoClient,
-} from "@stream-io/video-react-sdk";
+import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -17,7 +13,7 @@ function Meeting() {
   const params = useParams();
   const meetingId = params.id;
 
-  const { user, isLoaded } = useUser();
+  const { isLoaded } = useUser();
 
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
